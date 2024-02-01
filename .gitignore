@@ -1,3 +1,8 @@
 .envrc
 .DS_Store
-*.bak
+*.bak*
+
+.terraform
+*.tfbackend
+*.tfvars
+*.tfstate*
