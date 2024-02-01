@@ -1,38 +1,14 @@
-# Dockerfile
-# Start from the latest golang base image
-FROM golang:latest as builder
-
-# Add Maintainer Info
-LABEL maintainer="Your Name <your.email@example.com>"
-
-# Set the Current Working Directory inside the container
+FROM golang:1.21 as builder
+ARG GOARCH=arm64
 WORKDIR /app
-
-# Copy go mod and sum files
-COPY go.mod go.sum ./
-
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
-RUN go mod download
-
-# Copy the source from the current directory to the Working Directory inside the container
 COPY . .
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$GOARCH go build -o main .
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
-
-# Start a new stage from scratch
 FROM alpine:latest  
-
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Copy the Pre-built binary file from the previous stage
+RUN addgroup -S app && adduser -S -h /app app -G app
+WORKDIR /app
 COPY --from=builder /app/main .
-
-# Change to non-root user
-USER appuser
-
-# Expose port 8080 to the outside world
+USER app
 EXPOSE 8080
-
-# Command to run the executable
-CMD ["./main"]
+ENTRYPOINT ["/app/main"]
