@@ -1,7 +1,7 @@
 # devops-challenge-copilot
 
 Solution generated with GitHub Copilot to [Particle41](https://Particle41.com)'s
-DevOps Engineers' Challenge:
+[DevOps Team Challenge](p41-challenge/README.md):
 
 <https://bitbucket.org/particle41/devops-challenge-senior/>
 
