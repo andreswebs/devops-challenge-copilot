@@ -14,6 +14,28 @@ subnets.
 - **EKS Cluster**: The EKS cluster is deployed within the VPC. It has 2 nodes of
   type `m6a.large` in the private subnets.
 
+## AWS Authentication
+
+Terraform uses the AWS provider to interact with AWS. The provider needs to be
+configured with the proper credentials to authenticate with AWS.
+
+The easiest way to authenticate is to set the `AWS_PROFILE` environment variable
+to the name of the profile you want to use. This will instruct the provider to
+use the credentials associated with that profile in your AWS credentials file.
+
+For example, if you have a profile named `myprofile` in your AWS credentials
+file, you can select it by setting the `AWS_PROFILE` environment variable:
+
+```sh
+export AWS_PROFILE=myprofile
+```
+
+Then, when you run `terraform apply`, the AWS provider will use the credentials
+from the myprofile profile.
+
+Please note that you need to have the AWS CLI installed and configured on your
+machine to use this method of authentication.
+
 ## Terraform Commands
 
 Before you can apply this configuration, you need to initialize your Terraform
